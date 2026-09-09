@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "8b48399b-2c23-49e1-ba6b-4a1cdf3b7ba5",
+    "name": "Concesionario API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57735172",
+    "_collection_link": "https://go.postman.co/collection/57735172-8b48399b-2c23-49e1-ba6b-4a1cdf3b7ba5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var jsonData = pm.response.json();\npm.environment.set(\"user_token\", jsonData.token);\n\npm.test(\"Status code is 201 or 200\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\n});\n\npm.test(\"Response has a token\", function () {\n    pm.expect(jsonData).to.have.property(\"token\");\n    pm.expect(jsonData.token).to.be.a(\"string\");\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"sebas\",\r\n    \"password\": \"1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url_base}}/api/v1/auth/token/",
+          "host": [
+            "{{url_base}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "token",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nuevo_vehiculo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var jsonData = pm.response.json();\r\npm.environment.set(\"user_token\", jsonData.token);\r\npm.test(\"Status code is 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": [
+            {
+              "key": "key",
+              "value": "Authorization",
+              "type": "string"
+            },
+            {
+              "key": "value",
+              "value": "Token {{user_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"marca_modelo\": \"Toyota Hilux\",\r\n    \"vin\": \"JFR2F93HA12345699\",\r\n    \"precio_base\": \"120000000.00\",\r\n    \"anio\": 2021\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url_base}}/api/v1/vehiculos/",
+          "host": [
+            "{{url_base}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "vehiculos",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
